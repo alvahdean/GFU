@@ -2,3 +2,6 @@ GFUInstall/Release/GFUInstall.msi
 GFUInstall/Release/GFUInstall.msi
 *.msi
 *.msi
+GFU\.WebApp/
+
+GFU\.NetCore/

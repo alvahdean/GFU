@@ -1,1 +1,15 @@
 C:\proj\GFU\GFU\bin\Debug\GFU.exe.config
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\obj\x86\Debug\GFU.csprojResolveAssemblyReference.cache
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\obj\x86\Debug\GFU.GFUForm.resources
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\obj\x86\Debug\GFU.Properties.Resources.resources
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\obj\x86\Debug\GFU.csproj.GenerateResource.Cache
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\obj\x86\Debug\GFU.csproj.CoreCompileInputs.cache
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\bin\Debug\GFU.exe.config
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\bin\Debug\GFU.exe
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\bin\Debug\GFU.pdb
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\bin\Debug\System.IO.Compression.ZipFile.dll
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\bin\Debug\System.Runtime.dll
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\bin\Debug\System.IO.Compression.ZipFile.xml
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\bin\Debug\System.Runtime.xml
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\obj\x86\Debug\GFU.exe
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU\obj\x86\Debug\GFU.pdb

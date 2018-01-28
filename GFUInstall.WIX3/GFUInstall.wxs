@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="3F11BEBE-E0EC-49C2-86A6-D8C3C71FE173"
+             Name="Gemini Firmware Updater"
+             Language="1033"
+             Version="1.0.30"
+             Manufacturer="Dean Fuqua, PKAstro"
+             UpgradeCode="543C4A07-DD67-4CA9-BE7A-64203A8D49F7">
+
+        <Package Compressed="yes"/>
+
+        <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
+
+        <Directory Name="SourceDir" Id="TARGETDIR">
+            <Directory Name="ProgramFilesFolder" Id="ProgramFilesFolder">
+                <Directory Name="PKAstro" Id="_1">
+                    <Directory Name="Gemini Firmware Updater" Id="_2">
+                        <Component Id="_1" Guid="3C67513D-01DD-4637-8A68-80971EB9504F">
+                            <File Source="..\GFU\gfu.cgi"/>
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature Id="_1" Level="1">
+            <ComponentRef Id="_1"/>
+        </Feature>
+
+    </Product>
+</Wix>

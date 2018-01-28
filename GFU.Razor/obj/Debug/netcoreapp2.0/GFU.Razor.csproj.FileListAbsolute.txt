@@ -1,0 +1,11 @@
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\bin\Debug\netcoreapp2.0\GFU.Razor.deps.json
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\bin\Debug\netcoreapp2.0\GFU.Razor.runtimeconfig.json
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\bin\Debug\netcoreapp2.0\GFU.Razor.runtimeconfig.dev.json
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\bin\Debug\netcoreapp2.0\GFU.Razor.dll
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\bin\Debug\netcoreapp2.0\GFU.Razor.pdb
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\obj\Debug\netcoreapp2.0\GFU.Razor.csprojResolveAssemblyReference.cache
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\obj\Debug\netcoreapp2.0\GFU.Razor.csproj.CoreCompileInputs.cache
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\obj\Debug\netcoreapp2.0\GFU.Razor.AssemblyInfoInputs.cache
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\obj\Debug\netcoreapp2.0\GFU.Razor.AssemblyInfo.cs
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\obj\Debug\netcoreapp2.0\GFU.Razor.dll
+C:\Users\Dean Fuqua\Documents\Development\Contrib\GFU\GFU.Razor\obj\Debug\netcoreapp2.0\GFU.Razor.pdb

@@ -9,7 +9,8 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Runtime.InteropServices;
-using Ionic.Zip;
+using System.IO.Compression;
+//using Ionic.Zip;
 //using EnterpriseDT.Net.Ftp;
 
 namespace GFU
@@ -367,7 +368,8 @@ namespace GFU
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\GFU\\Upload";
             try
             {
-                System.IO.Directory.Delete(path, true); //delete old contents
+                if(Directory.Exists(path))
+                    Directory.Delete(path, true); //delete old contents
             }
             catch
             {
@@ -389,14 +391,7 @@ namespace GFU
 
             try
             {
-                using (ZipFile zip1 = ZipFile.Read(file))
-                {
-                    zip1.ExtractProgress += new EventHandler<ExtractProgressEventArgs>(zip1_ExtractProgress);
-                    zip1.ExtractAll(path);
-                }
-
-
-
+                ZipFile.ExtractToDirectory(file, path);
                 progDownload.Value = 1000;
                 lbDownloadPercent.Text = "100%";
                 statDecompress.Text = "Done!";
@@ -742,8 +737,8 @@ namespace GFU
         }
 
 
-
-        private void zip1_ExtractProgress(object sender, ExtractProgressEventArgs e)
+#if USE_EXTRACT_PROGRESS
+        private void zip1_ExtractProgressIconic(object sender, ExtractProgressEventArgs e)
         {
             if (e.EntriesExtracted > 0)
             {
@@ -770,7 +765,7 @@ namespace GFU
                 return;
             }
         }
-
+#endif
         private int UploadCount = 0;
 
         private bool ftpAll(string fromPath, string to, string uname, string pwd)

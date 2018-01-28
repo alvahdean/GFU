@@ -1,0 +1,406 @@
+﻿@page
+@model GFU.Razor.Pages.GFUModel
+@{
+    Html.AntiForgeryToken();
+    ViewData["Title"] = "Update GFU";
+    ViewData["StartPct"] = Model.ConnectState.PercentComplete.ToString();
+    ViewData["TestPct"] = Model.TestState.PercentComplete.ToString();
+}
+<h2>GFU Update</h2>
+
+<div class="panel panel-info" id="ConfigPanel">
+    <form>
+        <div class="panel-heading">
+            <h3 class="panel-title">Configuration</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" width="200" id="addressLabel">@Html.DisplayNameFor(model => model.Address)</span>
+                <input type="text" class="form-control" placeholder="IP Address (Default=192.168.0.1)" aria-describedby="sizing-addon1" asp-for="Address">
+            </div>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" width="200" id="usernameLabel">@Html.DisplayNameFor(model => model.UserName)</span>
+                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1" asp-for="UserName">
+            </div>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" width="100" id="passwordLabel">@Html.DisplayNameFor(model => model.Password)</span>
+                <input type="text" class="form-control" width="200" placeholder="Password" aria-describedby="sizing-addon1" asp-for="Password">
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="cbGemini" aria-label="Gemini" asp-for="UpdateGemini">
+                    </span>
+                    <span class="label label-info">@Html.DisplayNameFor(model => model.UpdateGemini)</span>
+
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="cbHC" aria-label="HC" asp-for="UpdateHC">
+                    </span>
+                    <span class="label label-info">@Html.DisplayNameFor(model => model.UpdateHC)</span>
+
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="cbVideos" aria-label="Videos" asp-for="UpdateVideos">
+                    </span>
+                    <span class="label label-info">@Html.DisplayNameFor(model => model.UpdateVideos)</span>
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="cbCatalogs" aria-label="Catalogs" asp-for="UpdateCatalogs">
+                    </span>
+                    <span class="label label-info">@Html.DisplayNameFor(model => model.UpdateCatalogs)</span>
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="cbFirmware" aria-label="cFirmware" asp-for="UpdateFlashFirmware">
+                    </span>
+                    <span class="label label-info">@Html.DisplayNameFor(model => model.UpdateFlashFirmware)</span>
+                </div><!-- /input-group -->
+
+                <div class="input-group">
+                    <span class="input-group-addon">@Html.DisplayNameFor(model => model.FirmwareUrl)</span>
+                    <input type="text" class="form-control" placeholder="URL to firmware zip file" aria-describedby="DownloadUrl" value="@Model.FirmwareUrl">
+                </div>
+            </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="panel-footer">
+            <div class="input-group-lg">
+                <span class="input-group-btn">
+                    <button id="btnStart" asp-page-handler="Start" class="btn btn-default" type="button">Go</button>
+                </span>
+                <span class="label label-info">Click Go to begin</span>
+            </div><!-- /input-group -->
+            <div class="input-group-lg">
+                <span class="input-group-addon">Induce test failure at:</span>
+                <input type="text" class="form-control" placeholder="Induce test failure at item (1-100)" aria-describedby="TestFailAt" asp-for="InduceTestFailAt">
+                <span class="input-group-btn">
+                    <button id="btnTest" asp-page-handler="Test" class="btn btn-default" type="submit" formmethod="post">Start Test Workload</button>
+                </span>
+            </div><!-- /input-group -->
+        </div>
+    </form>
+</div>
+
+
+<div class="panel panel-primary" id="TestPanel">
+    <div class="panel-heading">
+        <span class=\"glyphicon glyphicon-info\"></span>
+        <h3 class="panel-title">Test</h3>
+    </div>
+    @if (Model.TestState.State >= GFUTaskState.Running || true)
+    {
+
+        <div class="panel-body">
+            <div class="col-lg-6">
+                <span class="label label-info">Progress</span>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" id="prgConnect" role="progressbar" aria-valuenow="@ViewData["TestPct"]" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">"@ViewData["TestPct"]% Complete</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-6 -->
+            @if (String.IsNullOrWhiteSpace(Model.TestState.Message))
+            {
+                <div class="alert alert-info" role="alert">
+                    @Model.TestState.Message
+                </div>
+            }
+            @if (Model.TestState.Exception != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Model.TestState.Exception.ToString()
+                </div>
+            }
+        </div>
+    }
+</div>
+
+
+@if (false)
+{
+    <div class="panel panel-primary" id="ConnectPanel">
+        <div class="panel-heading">
+            <span class=\"glyphicon glyphicon-info\"></span>
+            <h3 class="panel-title">Connect</h3>
+        </div>
+        @if (Model.ConnectState.State >= GFUTaskState.Running)
+        {
+
+            <div class="panel-body">
+                <div class="col-lg-6">
+                    <span class="label label-info">Progress</span>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" id="prgConnect" role="progressbar" aria-valuenow="@ViewData["StartPct"]" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                            <span class="sr-only">"@ViewData["StartPct"]% Complete</span>
+                        </div>
+                    </div>
+                </div><!-- /.col-lg-6 -->
+                @if (String.IsNullOrWhiteSpace(Model.ConnectState.Message))
+                {
+                    <div class="alert alert-info" role="alert">
+                        @Model.ConnectState.Message
+                    </div>
+                }
+                @if (Model.ConnectState.Exception != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @Model.ConnectState.Exception.ToString()
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="panel panel-default" id="DownloadPanel">
+        <div class="panel-heading">
+            @if ((UpdateGFUTask)ViewData["CurrentTask"] >= UpdateGFUTask.Download)
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-ok\"></span>");
+            }
+            else
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-time\"></span>");
+            }
+            <h3 class="panel-title">Download</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
+                <span class="label label-info">Progress</span>
+                <div class="progress">
+                    <div class="id=" prgExtract" progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">45% Complete</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="btnDownload" asp-page-handler="Download" class="btn btn-default" type="button">Go</button>
+                </span>
+                <span class="label label-info">Click Go to begin</span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="ExtractPanel">
+        <div class="panel-heading">
+            @if ((UpdateGFUTask)ViewData["CurrentTask"] >= UpdateGFUTask.Extract)
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-ok\"></span>");
+            }
+            else
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-time\"></span>");
+            }
+            <h3 class="panel-title">Extract</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
+                <span class="label label-info">Progress</span>
+                <div class="progress">
+                    <div id="prgExtract" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">45% Complete</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="btnExtract" asp-page-handler="Extract" class="btn btn-default" type="button">Go</button>
+                </span>
+                <span class="label label-info">Click Go to begin</span>
+            </div><!-- /input-group -->
+        </div>
+
+    </div>
+
+    <div class="panel panel-default" id="UploadPanel">
+        <div class="panel-heading">
+            @if ((UpdateGFUTask)ViewData["CurrentTask"] >= UpdateGFUTask.Upload)
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-ok\"></span>");
+            }
+            else
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-time\"></span>");
+            }
+            <h3 class="panel-title">Upload</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
+                <span class="label label-info">Progress</span>
+                <div class="progress">
+                    <div id="prgUpload" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">o% Complete</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="btnUpload" asp-page-handler="Upload" class="btn btn-default" type="button">Go</button>
+                </span>
+                <span class="label label-info">Click Go to begin</span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="Flash">
+        <div class="panel-heading">
+            @if ((UpdateGFUTask)ViewData["CurrentTask"] >= UpdateGFUTask.Flash)
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-ok\"></span>");
+            }
+            else
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-time\"></span>");
+            }
+            <h3 class="panel-title">Flash</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
+                <span class="label label-info">Progress</span>
+                <div class="progress">
+                    <div id="prgFlash" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">o% Complete</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="btnFlash" asp-page-handler="Flash" class="btn btn-default" type="button">Go</button>
+                </span>
+                <span class="label label-info">Click Go to begin</span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="ResetSRAMPanel">
+        <div class="panel-heading">
+            @if ((UpdateGFUTask)ViewData["CurrentTask"] >= UpdateGFUTask.ResetSRAM)
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-ok\"></span>");
+            }
+            else
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-time\"></span>");
+            }
+            <h3 class="panel-title">Reset SRAM</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
+                <span class="label label-info">Progress</span>
+                <div class="progress">
+                    <div id="prgRestSRAM" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">o% Complete</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="btnResetSRAM" class="btn btn-default" type="button">Go</button>
+                </span>
+                <span class="label label-info">Click Go to begin</span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="RebootPanel">
+        <div class="panel-heading">
+            @if ((UpdateGFUTask)ViewData["CurrentTask"] >= UpdateGFUTask.Reboot)
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-ok\"></span>");
+            }
+            else
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-time\"></span>");
+            }
+            <h3 class="panel-title">Reboot</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
+                <span class="label label-info">Reboot</span>
+                <div class="progress">
+                    <div id="prgReboot" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">o% Complete</span>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-6 -->
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="btnReboot" asp-page-handler="Reboot" class="btn btn-default" type="button">Go</button>
+                </span>
+                <span class="label label-info">Click Go to begin</span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="CompletePanel">
+        <div class="panel-heading">
+            @if ((UpdateGFUTask)ViewData["CurrentTask"] >= UpdateGFUTask.Complete)
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-ok\"></span>");
+            }
+            else
+            {
+                @Html.Raw("<span class=\"glyphicon glyphicon-time\"></span>");
+            }        <h3 class="panel-title">Complete</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="col-lg-6">
+                <span class="label label-info">@ViewData["CompleteMessage"]</span>
+            </div><!-- /.col-lg-6 -->
+        </div>
+    </div>
+}
+
+@*<script>
+
+        $(document).ready(function () {
+            pdsaToggleRadioButtons("#gender", $(this));
+
+        });
+
+              });
+
+
+
+        function updateStatus(groupName, current) {
+
+            // Find currently checked radio button in the group
+
+            var chk = $(groupName + " .pdsa-radiobutton .glyphicon-record");
+
+
+
+            // Remove 'record' glyph
+
+            // Add 'unchecked' glyph
+
+            $(chk).removeClass('glyphicon-record')
+
+                .addClass('glyphicon-unchecked');
+
+
+
+            // Remove the 'unchecked' glyph, add the 'record' glyph
+
+            $(current).find(">:first-child")
+
+                .removeClass('glyphicon-unchecked');
+
+            $(current).find(">:first-child")
+
+                .addClass('glyphicon-record');
+
+        }
+
+    </script>
+*@
+
